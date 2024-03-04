@@ -9,8 +9,8 @@ import SwiftUI
 enum NavigationNames:String, CaseIterable {
     case pieChart = "Pie Chart"
     case AnotherView = "Another View"
-    case view2 = "View 2"
-    case view3 = "View 3"
+    case PracticeView = "Practice View"
+    case UserdAPI = "Users"
     case view4 = "View 4"
 }
 struct MainView: View {
@@ -34,6 +34,12 @@ struct MainView: View {
                         let name = NavigationNames.allCases[index]
                         NavigationLink(destination: navtoView(containerName: name)) {
                             ButtonView(buttonTitle: name.rawValue, buttonIndex: index)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(Color.white)
+                                        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 7)
+                                )
+
                         }
                     }
                     .padding(.vertical, 8)
@@ -75,10 +81,10 @@ func navtoView(containerName: NavigationNames)-> some View {
         return AnyView(PieChartContainerView())
     case .AnotherView:
         return AnyView(AnotherView())
-    case .view2:
-        return AnyView(EmptyView())
-    case .view3:
-        return AnyView(EmptyView())
+    case .PracticeView:
+        return AnyView(PracticeView())
+    case .UserdAPI:
+        return AnyView(UsersCardView())
     case .view4:
         return AnyView(EmptyView())
     }

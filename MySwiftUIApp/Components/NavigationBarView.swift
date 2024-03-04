@@ -28,7 +28,7 @@ struct NavigationBarView: ViewModifier {
             .padding(.leading, 10)
             .frame(maxWidth: .infinity)
             .frame(height: 40)
-            //            .background(Color.red.opacity(0.15))
+            // .background(Color.red.opacity(0.15))
             .background(LinearGradient(gradient: Gradient(colors: [Color(hex: 0xF09819), Color(hex: 0xFF512F)]), startPoint: .leading, endPoint: .trailing)) // Apply gradient background
             content
                 .navigationBarHidden(true)

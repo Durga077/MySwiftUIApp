@@ -29,7 +29,7 @@ struct PieChartContainerView: View {
     @State private var selectedButton1: ButtonType?
     @State private var selectedButton2: ButtonType?
     var body: some View {
-        NavigationView {
+//        NavigationView {
             VStack {
                 Text("\(totalSelectedCount)")
                 HStack {
@@ -54,10 +54,11 @@ struct PieChartContainerView: View {
                         }
                     }
                 }
+                buttonView()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color.blue.opacity(0.15))
-        }
+//        }
         .topNavBar(navBarTitle: "Pie Chart", backButtonAction: {self.presentationMode.wrappedValue.dismiss()})
     }
     func selectedButtonsCount() {
@@ -110,7 +111,70 @@ struct NewButtonView: View {
         .padding()
     }
 }
+struct Item {
+var title: String
+var isSelected: Bool
+}
+struct buttonView: View {
+//    @State var isSelectedArray:[Bool] = [false, false, false]
+//    var titleArray = ["Filler", "Empty", "Remove"]
+    @State var isSelectedItem:[Item] = [
+        Item(title: "Infi", isSelected: false),
+        Item(title: "Cap", isSelected: false),
+        Item(title: "Lil", isSelected: false),
+    ]
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack() {
+                ForEach(0..<isSelectedItem.count, id: \.self) { index in
+                    SelectedView(isSelected: $isSelectedItem[index].isSelected, title: isSelectedItem[index].title) {
+                        isSelectedItem.remove(at: index)
+                    }
+                }
+            }
+        }
+    }
+}
+struct SelectedView: View {
+    @Binding var isSelected:Bool
+    var title: String
+    var onDelete: () -> Void
+    var body: some View {
+        HStack(alignment: .center, spacing: 5) {
+            Text("\(title)")  //
+                .font(.largeTitle)
+                .fontWeight(.bold)
+//                .foregroundColor(Color (isSelected ? .black : .white ))
+                .foregroundColor(Color.white )
+                .padding(.leading, 55)
+            Spacer()
+            Button(action: { 
+                onDelete()
+            }, label: {
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: 55, height: 55)
+                    .overlay(
+                        Image(systemName: "cross")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 29, height: 25)
+                            .rotationEffect(.degrees(45))
+                    )
+                    .padding(.trailing, 25)
+            })
+//            .disabled(isSelected ? false : true )
+        }
+        .frame(width: 320, height: 80)
+        .background(Color ( isSelected ? Color(hex: 0xD12442) : Color(hex: 0x4B4FA6)))
+        .cornerRadius(50)
+        .onTapGesture {
+            isSelected.toggle()
+        }
+    }
+}
 
 #Preview {
-    PieChartContainerView()
+    buttonView()
+//    buttonView()
 }
